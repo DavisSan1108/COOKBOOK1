@@ -1,0 +1,49 @@
+name: namer_app
+description: A Flutter project for generating random word pairs and marking favorites.
+
+# Flutter environment version
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Dependencias necesarias para el proyecto
+  english_words: ^4.0.0 # Para generar palabras aleatorias
+  provider: ^6.0.5      # Para la gestión del estado
+  rename: ^3.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  change_app_package_name: ^1.4.0
+
+# Configuración para Flutter
+flutter:
+  uses-material-design: true
+
+  # Configuración de assets y fuentes
+  assets:
+    - assets/fonts/
+    - assets/loading.gif
+
+  fonts:
+    - family: RobotoMono
+      fonts:
+        - asset: assets/fonts/static/RobotoMono-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/static/RobotoMono-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/static/RobotoMono-Light.ttf
+          weight: 300
+        - asset: assets/fonts/static/RobotoMono-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/static/RobotoMono-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/static/RobotoMono-Italic.ttf
+          style: italic
+        - asset: assets/fonts/static/RobotoMono-BoldItalic.ttf
+          weight: 700
+          style: italic
