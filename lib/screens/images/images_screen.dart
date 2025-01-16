@@ -65,8 +65,8 @@ class FadeInImagesPlaceholderExample extends StatelessWidget {
       child: FadeInImage.assetNetwork(
         placeholder: 'assets/loading.gif', // Placeholder local
         image: 'https://picsum.photos/250?image=9', // Nueva URL
-        fadeInDuration: const Duration(seconds: 1),
-        fadeOutDuration: const Duration(seconds: 1),
+        fadeInDuration: const Duration(seconds: 10),
+        fadeOutDuration: const Duration(seconds: 10),
         placeholderErrorBuilder: (context, error, stackTrace) {
           return const Icon(Icons.error, size: 50, color: Colors.red); // Manejo de error
         },
