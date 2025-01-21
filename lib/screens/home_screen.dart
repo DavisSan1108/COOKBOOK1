@@ -4,7 +4,9 @@ import 'forms/forms_screen.dart';
 import 'images/images_screen.dart';
 import 'lists/lists_screen.dart';
 import 'navigation/navigation_screen.dart';
-import 'first_app_screen.dart'; // Importa la nueva actividad
+import 'first_app_screen.dart';
+import 'persistence/persistence_screen.dart';
+import 'networking/networking_screen.dart'; // Importa la nueva actividad
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -110,6 +112,32 @@ class HomeScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const FirstAppScreen()),
+                );
+              },
+            ),
+            _buildCustomButton(
+              context,
+              title: 'Persistence',
+              icon: Icons.save,
+              color: Colors.brown,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PersistenceScreen()),
+                );
+              },
+            ),
+            _buildCustomButton(
+              context,
+              title: 'Networking',
+              icon: Icons.network_wifi,
+              color: Colors.blueGrey,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NetworkingScreen()),
                 );
               },
             ),
