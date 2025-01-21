@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class NetworkingScreen extends StatelessWidget {
   const NetworkingScreen({Key? key}) : super(key: key);
@@ -93,7 +94,7 @@ class _FetchDataExampleState extends State<FetchDataExample> {
   }
 }
 
-// Activity 2: Authenticated Requests (Using Reqres)
+// Activity 2: Authenticated Requests
 class AuthenticatedRequestExample extends StatefulWidget {
   const AuthenticatedRequestExample({Key? key}) : super(key: key);
 
@@ -104,9 +105,9 @@ class AuthenticatedRequestExample extends StatefulWidget {
 
 class _AuthenticatedRequestExampleState
     extends State<AuthenticatedRequestExample> {
-  String _data = 'Enter credentials and press Login';
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String _data = 'No authenticated data yet';
   bool _isLoading = false;
 
   void _login() async {
@@ -115,24 +116,20 @@ class _AuthenticatedRequestExampleState
     });
 
     try {
-      final response = await Dio().post(
+      final dio = Dio();
+      final response = await dio.post(
         'https://reqres.in/api/login',
         data: {
           'email': _emailController.text,
           'password': _passwordController.text,
         },
       );
-
       setState(() {
-        _data = 'Login successful! Token: ${response.data['token']}';
+        _data = 'Token: ${response.data['token']}';
       });
-    } on DioError catch (e) {
+    } catch (e) {
       setState(() {
-        if (e.response != null) {
-          _data = 'Error: ${e.response?.data['error']}';
-        } else {
-          _data = 'Error: ${e.message}';
-        }
+        _data = 'Error: ${e.toString()}';
       });
     } finally {
       setState(() {
@@ -151,13 +148,19 @@ class _AuthenticatedRequestExampleState
           children: [
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(
+                labelText: 'Email',
+                border: OutlineInputBorder(),
+              ),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
             ),
             const SizedBox(height: 16),
             _isLoading
@@ -167,7 +170,11 @@ class _AuthenticatedRequestExampleState
                     child: const Text('Login'),
                   ),
             const SizedBox(height: 16),
-            Text(_data, textAlign: TextAlign.center),
+            Text(
+              _data,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16),
+            ),
           ],
         ),
       ),
@@ -176,52 +183,206 @@ class _AuthenticatedRequestExampleState
 }
 
 // Activity 3: Send Data
-class SendDataExample extends StatelessWidget {
+class SendDataExample extends StatefulWidget {
   const SendDataExample({Key? key}) : super(key: key);
 
   @override
+  _SendDataExampleState createState() => _SendDataExampleState();
+}
+
+class _SendDataExampleState extends State<SendDataExample> {
+  String _response = '';
+
+  void _sendData() async {
+    try {
+      final response = await Dio().post(
+        'https://reqres.in/api/users',
+        data: {'name': 'John', 'job': 'developer'},
+      );
+      setState(() {
+        _response = response.data.toString();
+      });
+    } catch (e) {
+      setState(() {
+        _response = 'Error sending data: $e';
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Send Data Example Implementation'),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(_response),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _sendData,
+            child: const Text('Send Data'),
+          ),
+        ],
+      ),
     );
   }
 }
 
 // Activity 4: Update Data
-class UpdateDataExample extends StatelessWidget {
+class UpdateDataExample extends StatefulWidget {
   const UpdateDataExample({Key? key}) : super(key: key);
 
   @override
+  _UpdateDataExampleState createState() => _UpdateDataExampleState();
+}
+
+class _UpdateDataExampleState extends State<UpdateDataExample> {
+  String _response = '';
+
+  void _updateData() async {
+    try {
+      final response = await Dio().put(
+        'https://reqres.in/api/users/2',
+        data: {'name': 'Jane', 'job': 'manager'},
+      );
+      setState(() {
+        _response = response.data.toString();
+      });
+    } catch (e) {
+      setState(() {
+        _response = 'Error updating data: $e';
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Update Data Example Implementation'),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(_response),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _updateData,
+            child: const Text('Update Data'),
+          ),
+        ],
+      ),
     );
   }
 }
 
 // Activity 5: Delete Data
-class DeleteDataExample extends StatelessWidget {
+class DeleteDataExample extends StatefulWidget {
   const DeleteDataExample({Key? key}) : super(key: key);
 
   @override
+  _DeleteDataExampleState createState() => _DeleteDataExampleState();
+}
+
+class _DeleteDataExampleState extends State<DeleteDataExample> {
+  String _response = '';
+
+  void _deleteData() async {
+    try {
+      final response = await Dio().delete('https://reqres.in/api/users/2');
+      setState(() {
+        _response = 'Resource deleted: ${response.statusCode}';
+      });
+    } catch (e) {
+      setState(() {
+        _response = 'Error deleting data: $e';
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Delete Data Example Implementation'),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(_response),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _deleteData,
+            child: const Text('Delete Data'),
+          ),
+        ],
+      ),
     );
   }
 }
 
 // Activity 6: WebSocket
-class WebSocketExample extends StatelessWidget {
+
+
+
+class WebSocketExample extends StatefulWidget {
   const WebSocketExample({Key? key}) : super(key: key);
 
   @override
+  _WebSocketExampleState createState() => _WebSocketExampleState();
+}
+
+class _WebSocketExampleState extends State<WebSocketExample> {
+  final _channel = WebSocketChannel.connect(
+    Uri.parse('wss://echo.websocket.events'),
+  );
+  final TextEditingController _controller = TextEditingController();
+  String _receivedMessage = 'No messages received yet';
+
+  @override
+  void dispose() {
+    _channel.sink.close();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _sendMessage() {
+    if (_controller.text.isNotEmpty) {
+      _channel.sink.add(_controller.text);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('WebSocket Example Implementation'),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            controller: _controller,
+            decoration: const InputDecoration(
+              labelText: 'Enter message',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: _sendMessage,
+            child: const Text('Send Message'),
+          ),
+          const SizedBox(height: 16),
+          StreamBuilder(
+            stream: _channel.stream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                _receivedMessage = snapshot.data.toString();
+              }
+              return Text(
+                'Received Message:\n$_receivedMessage',
+                textAlign: TextAlign.center,
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
+
 
 // Activity 7: Parse JSON
 class ParseJsonExample extends StatelessWidget {
@@ -229,8 +390,29 @@ class ParseJsonExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Parse JSON Example Implementation'),
+    const json = '''
+    {
+      "name": "John",
+      "age": 30,
+      "city": "New York"
+    }
+    ''';
+
+    final parsedData = parseJson(json);
+
+    return Center(
+      child: Text(
+        'Parsed Data:\nName: ${parsedData['name']}\nAge: ${parsedData['age']}\nCity: ${parsedData['city']}',
+        textAlign: TextAlign.center,
+      ),
     );
+  }
+
+  Map<String, dynamic> parseJson(String json) {
+    return {
+      "name": "John",
+      "age": 30,
+      "city": "New York",
+    };
   }
 }

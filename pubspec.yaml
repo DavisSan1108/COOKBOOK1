@@ -9,6 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^5.1.2
+  web_socket_channel: ^2.3.0
   # Dependencias necesarias para el proyecto
   english_words: ^4.0.0 # Para generar palabras aleatorias
   provider: ^6.0.5      # Para la gestión del estado
