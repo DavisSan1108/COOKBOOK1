@@ -6,7 +6,8 @@ import 'lists/lists_screen.dart';
 import 'navigation/navigation_screen.dart';
 import 'first_app_screen.dart';
 import 'persistence/persistence_screen.dart';
-import 'networking/networking_screen.dart'; // Importa la nueva actividad
+import 'networking/networking_screen.dart';
+import 'effects/effects_screen.dart'; // Importa la nueva actividad
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -138,6 +139,19 @@ class HomeScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const NetworkingScreen()),
+                );
+              },
+            ),
+            _buildCustomButton(
+              context,
+              title: 'Effects',
+              icon: Icons.auto_awesome,
+              color: Colors.deepPurple,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EffectsScreen()),
                 );
               },
             ),

@@ -216,6 +216,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  parallax:
+    dependency: "direct main"
+    description:
+      name: parallax
+      sha256: "10ea9ecded06b65cfbeba7796d7ece705a46514a68622ffe7342449395fbaafb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   path:
     dependency: "direct main"
     description:
@@ -360,6 +368,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  shimmer:
+    dependency: "direct main"
+    description:
+      name: shimmer
+      sha256: "1f1009b5845a1f88f1c5630212279540486f97409e9fc3f63883e71070d107bf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
