@@ -83,7 +83,7 @@ class _ReadWriteFilesExampleState extends State<ReadWriteFilesExample> {
               child: const Text('Read from File'),
             ),
             const SizedBox(height: 20),
-            Text('File Content:', style: const TextStyle(fontWeight: FontWeight.bold)),
+            const Text('File Content:', style: TextStyle(fontWeight: FontWeight.bold)),
             Text(_fileContent),
           ],
         ),

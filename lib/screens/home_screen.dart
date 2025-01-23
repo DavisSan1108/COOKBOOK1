@@ -7,7 +7,8 @@ import 'navigation/navigation_screen.dart';
 import 'first_app_screen.dart';
 import 'persistence/persistence_screen.dart';
 import 'networking/networking_screen.dart';
-import 'effects/effects_screen.dart'; // Importa la nueva actividad
+import 'effects/effects_screen.dart';
+import 'animation/animation_screen.dart'; // Importa la nueva pantalla de Animations
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -152,6 +153,19 @@ class HomeScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => const EffectsScreen()),
+                );
+              },
+            ),
+            _buildCustomButton(
+              context,
+              title: 'Animations',
+              icon: Icons.animation,
+              color: Colors.pink,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AnimationScreen()),
                 );
               },
             ),

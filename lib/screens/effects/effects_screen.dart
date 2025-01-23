@@ -215,8 +215,8 @@ class ShimmerEffectExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Shimmer Effect')),
-      body: Center(
-        child: const Text('Shimmer Effect Placeholder'),
+      body: const Center(
+        child: Text('Shimmer Effect Placeholder'),
       ),
     );
   }
